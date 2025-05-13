@@ -1,15 +1,40 @@
 import requests
+import time
+from datetime import datetime
 
 def fetch_seasons(headers, competitions):
-    ids = [competition['code'] for competition in competitions]
-    for id in ids:
-        url = f'http://api.football-data.org/v4/competitions/{id}'
-        response = requests.get(url, headers)
+    all_seasons = []
 
-        if response.status_code != 200:
-            raise Exception(f'Não foi possivel obter dados da temporada {response.status_code}')
-        else:
-            competition_data = response.json()
-            seasons = [competition_data['seasons']]
-            season_id = [season['id'] for season in seasons]
-            print(season_id)
+    for comp in competitions:
+        if comp['code'] in ['WC', 'CL', 'EC', 'CLI']:
+            continue
+
+        while True:
+            url = f"https://api.football-data.org/v4/competitions/{comp['code']}"
+            response = requests.get(url=url, headers=headers)
+
+            if response.status_code == 200:
+                competition_data = response.json()
+                seasons_data = competition_data['seasons'][:6]  # pegar as 6 últimas seasons
+
+                for season in seasons_data:
+                    season_entry = {
+                        'id': season['id'],
+                        'competition_id': comp['id'],
+                        'start_date': season['startDate'],
+                        'end_date': season['endDate'],
+                        'current_matchday': season.get('currentMatchday'),
+                        'winner': season['winner']['id'] if season['winner'] else None
+                    }
+                    all_seasons.append(season_entry)
+
+                break  # sucesso → sai do while
+
+            elif response.status_code == 429:
+                print(f"Limite de requisições excedido para {comp['code']}, aguardando 60s...")
+                time.sleep(60)  # Espera e tenta de novo
+
+            else:
+                raise Exception(f"Erro ao buscar temporada de {comp['code']}: {response.status_code}")
+
+    return all_seasons
