@@ -1,5 +1,4 @@
 import requests
-import os
 
 def fetch_competitions(headers):
     url = "https://api.football-data.org/v4/competitions/"
