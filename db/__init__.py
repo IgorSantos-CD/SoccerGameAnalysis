@@ -1,1 +1,2 @@
 from .insert_competitions import insert_competitions
+from .insert_season import insert_seasons
