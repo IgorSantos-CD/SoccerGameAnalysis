@@ -1,0 +1,1 @@
+from .insert_competitions import insert_competitions
