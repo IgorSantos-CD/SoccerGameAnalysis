@@ -1,8 +1,9 @@
-from api import fetch_competitions, fetch_seasons, fetch_teams
-from db import insert_competitions
+from api import fetch_competitions, fetch_seasons, fetch_teams, fetch_standings
+from db import insert_competitions, insert_seasons
 import os
 from dotenv import load_dotenv
 from supabase import create_client
+import pandas as pd
 
 load_dotenv('./.env')
 
@@ -22,7 +23,12 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 competitions = fetch_competitions(headers)
 insert_competitions(supabase, competitions)'''
 
-competitions = supabase.table('competitions').select('*').execute()
+'''competitions = supabase.table('competitions').select('*').execute()
+
+#Temporadas (seasons)
+seasons = fetch_seasons(headers, competitions.data)
+insert_seasons(supabase, seasons)'''
+
 
 #Times (teams)
 
