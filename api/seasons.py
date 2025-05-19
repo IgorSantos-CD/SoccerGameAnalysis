@@ -15,7 +15,7 @@ def fetch_seasons(headers, competitions):
 
             if response.status_code == 200:
                 competition_data = response.json()
-                seasons_data = competition_data['seasons'][:6]  # pegar as 6 últimas seasons
+                seasons_data = competition_data['seasons']  # pegar as 6 últimas seasons
 
                 for season in seasons_data:
                     season_entry = {
