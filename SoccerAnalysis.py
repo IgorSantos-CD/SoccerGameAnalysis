@@ -19,7 +19,15 @@ liga_id = comp_name_code[liga]
 
 seasons_available = select_supabase(supabase, 'seasons', 'id, start_date, end_date', condicao={'competition_id':liga_id})
 years = {item['start_date'][:4] : item['id'] for item in seasons_available}
-years_list = [int(y) for y in years]
+years_not_null = {}
+for year, season_id in years.items():
+    matches = select_supabase(supabase, 'matches', '*', {'season_id' :season_id, 'status' : 'FINISHED', 'competition_id':liga_id})
+    if matches:
+        years_not_null[year] = season_id
+
+
+
+years_list = [int(y) for y in years_not_null]
 season = st.sidebar.slider('Selecione a Temporada:', min(years_list), max(years_list))
 select_season = next(
     (item['id'] for item in seasons_available if item['start_date'][:4] == str(season)),
@@ -27,5 +35,3 @@ select_season = next(
 )
 
 matches = select_supabase(supabase, 'matches', '*',{'season_id':select_season, 'status':'FINISHED','competition_id':liga_id})
-
-st.write(matches)
