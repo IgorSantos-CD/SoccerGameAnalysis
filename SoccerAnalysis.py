@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 from db import select_supabase
 from supabase_local import connect_to_supabase, define_headers
-from func_streamlit import year_validate
+from func_streamlit import year_validate, big_number_card, rodadas_disputadas, media_gols
 
 # Connect to Supabase
 supabase = connect_to_supabase()
@@ -30,12 +30,17 @@ select_season = next(
     None  # valor padrão se não encontrar
 )
 
+rodada_atual = rodadas_disputadas(liga_id,select_season)
 matches = select_supabase(supabase, 'matches', '*',{'season_id':select_season, 'status':'FINISHED','competition_id':liga_id})
+media_goals = media_gols(matches)
 
 st.header('Principais indicadores')
 
-col, col2, col3 = st.columns([1,2,3], gap='medium')
+col, col2, col3 = st.columns(3)
 
 with col:
-    st.subheader('Jogos Disputados:')
+    big_number_card('Rodadas Realizadas:', rodada_atual)
+
+with col2:
+    big_number_card('Média de gols por jogo:', media_goals)
 
