@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 from db import select_supabase
 from supabase_local import connect_to_supabase, define_headers
+from func_streamlit import year_validate
 
 # Connect to Supabase
 supabase = connect_to_supabase()
@@ -19,12 +20,7 @@ liga_id = comp_name_code[liga]
 
 seasons_available = select_supabase(supabase, 'seasons', 'id, start_date, end_date', condicao={'competition_id':liga_id})
 years = {item['start_date'][:4] : item['id'] for item in seasons_available}
-years_not_null = {}
-for year, season_id in years.items():
-    matches = select_supabase(supabase, 'matches', '*', {'season_id' :season_id, 'status' : 'FINISHED', 'competition_id':liga_id})
-    if matches:
-        years_not_null[year] = season_id
-
+years_not_null = year_validate(years,liga_id)
 
 
 years_list = [int(y) for y in years_not_null]
@@ -35,3 +31,11 @@ select_season = next(
 )
 
 matches = select_supabase(supabase, 'matches', '*',{'season_id':select_season, 'status':'FINISHED','competition_id':liga_id})
+
+st.header('Principais indicadores')
+
+col, col2, col3 = st.columns([1,2,3], gap='medium')
+
+with col:
+    st.subheader('Jogos Disputados:')
+
