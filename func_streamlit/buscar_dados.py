@@ -19,16 +19,10 @@ def rodadas_disputadas(competition, season):
     rodada_atual = current_matchday[0]['current_matchday']
     return rodada_atual
 
-def media_gols(matches):
-    goals_home = []
-    goals_away = []
-    for matche in matches:
-        home = matche['home_score']
-        away = matche['away_score']
-        goals_home.append(home)
-        goals_away.append(away)
-    goals_total = sum(goals_home) + sum(goals_away)
-    media = round(goals_total/len(matches),2)
+def media_gols(df):
+    gols_total = sum(df['home_score']) + sum(df['away_score'])
+    jogos_total = df.shape[0]
+    media = round(gols_total/jogos_total,2)
     return media
 
 
