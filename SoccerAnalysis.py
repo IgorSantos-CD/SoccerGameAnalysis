@@ -32,7 +32,9 @@ select_season = next(
 
 rodada_atual = rodadas_disputadas(liga_id,select_season)
 matches = select_supabase(supabase, 'matches', '*',{'season_id':select_season, 'status':'FINISHED','competition_id':liga_id})
-media_goals = media_gols(matches)
+df_matches = pd.DataFrame(matches)
+gols = sum(df_matches['home_score']) + sum(df_matches['away_score'])
+media_goals = media_gols(df_matches)
 
 st.header('Principais indicadores')
 
@@ -43,4 +45,7 @@ with col:
 
 with col2:
     big_number_card('Média de gols por jogo:', media_goals)
+
+st.markdown('---')
+
 
