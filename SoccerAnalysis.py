@@ -35,17 +35,24 @@ matches = select_supabase(supabase, 'matches', '*',{'season_id':select_season, '
 df_matches = pd.DataFrame(matches)
 gols = sum(df_matches['home_score']) + sum(df_matches['away_score'])
 media_goals = media_gols(df_matches)
+top_media_home = df_matches.groupby('home_team_id')['home_score'].mean().sort_values(ascending=False).head()
+top_media_away = df_matches.groupby('home_team_id')['away_score'].mean().sort_values(ascending=False).head()
 
-st.header('Principais indicadores')
+st.header(liga)
+st.subheader('Principais Indicadores:')
 
 col, col2, col3 = st.columns(3)
 
 with col:
     big_number_card('Rodadas Realizadas:', rodada_atual)
-
-with col2:
     big_number_card('Média de gols por jogo:', media_goals)
 
-st.markdown('---')
+with col2:
+    st.markdown("<h3 style='color: #C0C0C0;'>🏆 Top 3 Times com Maior Média de Gols (Casa)</h3>", unsafe_allow_html=True)
+    st.dataframe(top_media_home.reset_index().rename(columns={'home_team_id':'Time', 'home_score' : 'Média de Gols'}))
+with col3:
+    st.markdown("<h3 style='color: #C0C0C0;'>🏆 Top 3 Times com Maior Média de Gols (Fora)</h3>", unsafe_allow_html=True)
+    st.dataframe(top_media_away.reset_index().rename(columns={'away_team_id' : 'Time', 'away_score' : 'Média de Gols'}))
 
+st.markdown('---')
 
