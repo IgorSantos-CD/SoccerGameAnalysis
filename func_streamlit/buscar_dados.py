@@ -1,6 +1,7 @@
 from supabase_local import connect_to_supabase
 from db import select_supabase
 import streamlit as st
+import pandas as pd
 
 supabase = connect_to_supabase()
 
@@ -20,8 +21,9 @@ def rodadas_disputadas(competition, season):
     return rodada_atual
 
 def media_gols(df):
-    gols_total = sum(df['home_score']) + sum(df['away_score'])
-    jogos_total = df.shape[0]
+    df_not_null = df.loc[(pd.notnull(df['home_score'])) & pd.notnull(df['away_score'])]
+    gols_total = sum(df_not_null['home_score']) + sum(df_not_null['away_score'])
+    jogos_total = df_not_null.shape[0]
     media = round(gols_total/jogos_total,2)
     return media
 
