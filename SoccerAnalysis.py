@@ -45,8 +45,17 @@ st.markdown('---')
 ## BUSCANDO AS PATIDAS DA LIGA E DA TEMPORADA SELECIONADA
 matches = select_supabase(supabase, 'jogos_com_detalhes','*',[{'coluna':'season_id', 'operador':'eq','valor':id_escolhido}])
 
+#GERANDO COLUNAS PARA APRESENTAÇÃO DE DADOS
+col1, col2 = st.columns(2)
 media_total = media_gols(matches)
-st.write(media_total)
+with col1:
+    big_number_card('Quantidade de Rodadas Disputadas', max(matches['current_matchday']))
+
+with col2:
+    big_number_card('Media de Gols por Jogo:', media_total)
+
+st.markdown('---')
+
 
 times_casa = matches[['home_team_short_name','home_score','away_score']].rename(
     columns={'home_team_short_name':'time','home_score':'gols_pro','away_score':'gols_contra'}
