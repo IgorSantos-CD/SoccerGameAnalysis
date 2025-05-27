@@ -48,4 +48,14 @@ matches = select_supabase(supabase, 'jogos_com_detalhes','*',[{'coluna':'season_
 media_total = media_gols(matches)
 st.write(media_total)
 
+times_casa = matches[['home_team_short_name','home_score','away_score']].rename(
+    columns={'home_team_short_name':'time','home_score':'gols_pro','away_score':'gols_contra'}
+    )
+
+times_fora = matches[['away_team_short_name','home_score','away_score']].rename(
+    columns={'away_team_short_name':'time','home_score':'gols_pro','away_score':'gols_contra'}
+    )
+
+times = pd.concat([times_casa,times_fora])
+
 
