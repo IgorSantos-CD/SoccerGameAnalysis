@@ -39,8 +39,13 @@ for start_date, id_temp in ids_validos.items():
     if int(start_date[:4]) == ano_selecionado:
         id_escolhido = id_temp
 
+st.markdown(f'## :soccer: {competicao} | {ano_selecionado}')
+st.markdown('---')
 
+## BUSCANDO AS PATIDAS DA LIGA E DA TEMPORADA SELECIONADA
+matches = select_supabase(supabase, 'jogos_com_detalhes','*',[{'coluna':'season_id', 'operador':'eq','valor':id_escolhido}])
 
-
+media_total = media_gols(matches)
+st.write(media_total)
 
 
