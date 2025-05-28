@@ -13,6 +13,9 @@ st.set_page_config(page_title="Soccer Analysis", page_icon="⚽", layout="wide")
 ## TRAZENDO AS COMPETIÇÕES DO BANCO DE DADOS
 competitions = select_supabase(supabase, 'competitions', '*')
 
+## TITULO DA SIDEBAR
+st.sidebar.title('Soccer Analysis')
+
 ## CRIANDO FILTRO E ARMAZENANDO A ESCOLHA DO USUÁRIO
 competicoes_disponiveis = {name : comp_id for code, name , comp_id in competitions[['code','name','id']].values if code not in ['WC', 'CL', 'EC', 'CLI']}
 competicao = st.sidebar.selectbox('Selecione a competição:',competicoes_disponiveis)
