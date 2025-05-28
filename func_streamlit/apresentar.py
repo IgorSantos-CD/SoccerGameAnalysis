@@ -40,4 +40,23 @@ def plotar_contagem(df, col):
     plt.tight_layout()
     return fig
 
+def plotar_pizza(df, col):
+    contagem = df[col].value_counts().head(5)
+
+    fig, ax = plt.subplots(figsize=(12,8))
+    fig.patch.set_facecolor('lightgray')
+    ax.set_facecolor('lightgray')
+
+    ax.pie(
+        contagem.values, 
+        labels=contagem.index, 
+        autopct='%1.1f%%', 
+        startangle=90, 
+        counterclock=False
+    )
+    plt.tight_layout()
+    
+    return fig
+
+
     
