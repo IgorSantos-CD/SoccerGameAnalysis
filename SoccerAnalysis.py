@@ -68,7 +68,7 @@ st.markdown('---')
 
 col1, col2 = st.columns(2)
 
-placares = matches[['home_score','away_score']].copy()
+placares = matches[['home_score','away_score']].loc[matches['status']=='FINISHED'].copy()
 placares['placar'] = placares.apply(formatar_placares, axis=1)
 
 with col1:
