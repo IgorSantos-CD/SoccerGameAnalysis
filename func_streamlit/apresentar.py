@@ -25,10 +25,15 @@ def big_number_card(title, value,color="#000000"):
     
 def plotar_contagem(df, col):
     contagem = df[col].value_counts().head(5)
-    plt.figure(figsize=(12,8))
+    fig, ax = plt.subplots(figsize=(12,8))
+    fig.patch.set_facecolor('lightgray')
+    ax.set_facecolor('lightgray')
+
     sns.barplot(x= contagem.index, y=contagem.values)
-    plt.xlabel(col)
+
+    ax.set_xlabel(col)
     plt.xticks(rotation=45)
-    plt.show()
+    plt.tight_layout()
+    return fig
 
     
