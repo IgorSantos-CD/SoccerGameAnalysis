@@ -79,7 +79,7 @@ times_casa = matches[['home_team_short_name','home_score','away_score']].rename(
     )
 
 times_fora = matches[['away_team_short_name','home_score','away_score']].rename(
-    columns={'away_team_short_name':'time','home_score':'gols_pro','away_score':'gols_contra'}
+    columns={'away_team_short_name':'time','home_score':'gols_contra','away_score':'gols_pro'}
     )
 
 times = pd.concat([times_casa,times_fora])
