@@ -93,6 +93,30 @@ with col2:
     st.markdown("### Distribuição de resultados")
     fig = plotar_pizza(resultados, 'Vencedor')
     st.pyplot(fig)
+
+st.markdown('---')
+st.markdown('### Clubes da competição')
+st.markdown('')
+
+# SELECIONANDO OS LINKS SEM DUPLICADAS DOS CLUBES
+home_crests = matches[['home_team_name', 'home_team_crest_url']].drop_duplicates()
+away_crests = matches[['away_team_name', 'away_team_crest_url']].drop_duplicates()
+
+# RENOMEAR PARA FACILITAR A CONCATENAÇÃO
+home_crests.columns = ['team_name', 'crest_url']
+away_crests.columns = ['team_name', 'crest_url']
+
+# CONCATENAR E REMOVER DUPLICADAS
+all_crests = pd.concat([home_crests, away_crests]).drop_duplicates(subset='team_name').reset_index(drop=True)
+
+# DEFINE O NUMERO DE COLUNAS DESEJADO POR GRID
+cols = st.columns(5, gap='large')
+
+for idx, row in all_crests.iterrows():
+    col = cols[idx % 5]  # Escolhe a coluna de forma cíclica
+    with col:
+        st.image(row['crest_url'], width=80, caption=row['team_name'])
+
 times_casa = matches[['home_team_short_name','home_score','away_score']].rename(
     columns={'home_team_short_name':'time','home_score':'gols_pro','away_score':'gols_contra'}
     )
