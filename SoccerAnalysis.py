@@ -65,6 +65,14 @@ with col4:
 
 st.markdown('---')
 
+col1, col2 = st.columns(2)
+
+placares = matches[['home_score','away_score']].copy()
+placares['placar'] = placares.apply(formatar_placares, axis=1)
+
+with col1:
+    plotar_contagem(placares, 'placar')
+    st.pyplot(plt)
 
 times_casa = matches[['home_team_short_name','home_score','away_score']].rename(
     columns={'home_team_short_name':'time','home_score':'gols_pro','away_score':'gols_contra'}
