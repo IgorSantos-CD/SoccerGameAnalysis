@@ -31,6 +31,10 @@ def plotar_contagem(df, col):
 
     sns.barplot(x= contagem.index, y=contagem.values)
 
+    # Adiciona os rótulos de dados
+    for i, v in enumerate(contagem.values):
+        ax.text(i, v + 0.5, str(v), ha='center', va='bottom', fontweight='bold')
+
     ax.set_xlabel(col)
     plt.xticks(rotation=45)
     plt.tight_layout()
