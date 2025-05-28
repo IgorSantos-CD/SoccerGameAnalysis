@@ -49,13 +49,19 @@ st.markdown('---')
 matches = select_supabase(supabase, 'jogos_com_detalhes','*',[{'coluna':'season_id', 'operador':'eq','valor':id_escolhido}])
 
 #GERANDO COLUNAS PARA APRESENTAÇÃO DE DADOS
-col1, col2 = st.columns(2)
-media_total = media_gols(matches)
+col1, col2, col3, col4 = st.columns(4)
+media_total, jogos_total, gols_total = media_gols(matches)
 with col1:
-    big_number_card('Quantidade de Rodadas Disputadas', max(matches['current_matchday']))
+    big_number_card('Rodadas Disputadas', max(matches['current_matchday'])) ## RODADAS DISPUTADAS
 
 with col2:
-    big_number_card('Media de Gols por Jogo:', media_total)
+    big_number_card('Partidas Disputadas', jogos_total) ## QUANTIDADE DE JOGOS DISPUTADOS
+
+with col3:
+    big_number_card('Total de Gols Marcados', gols_total) ##TOTAL DE GOLS MARCADOS NA COMPETIÇÃO/TEMPORADA
+
+with col4:
+    big_number_card('Media de Gols por Jogo:', media_total) ##MEDIA DE GOLS POR JOGO NA COMPETIÇÃO/TEMPORADA
 
 st.markdown('---')
 
