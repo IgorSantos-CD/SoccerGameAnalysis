@@ -71,16 +71,28 @@ with col4:
 
 st.markdown('---')
 
+## GERANDO COLUNA PARA APRESENTAÇÃO DE DADOS (DISTRIBUIÇÃO DE DADOS)
 col1, col2 = st.columns(2)
 
+## TRATANDO PLACARES
 placares = matches[['home_score','away_score']].loc[matches['status']=='FINISHED'].copy()
 placares['placar'] = placares.apply(formatar_placares, axis=1)
 
+## TRATANDO RESULTADOS
+resultados = matches[['winner']].loc[matches['status']=='FINISHED'].copy()
+resultados['Vencedor'] = resultados.apply(formatar_resultados, axis=1)
+
+## COLUNA 1 - 5 PLACARES MAIS COMUNS NO CAMPEONATO
 with col1:
     st.markdown('### Placares mais comuns')
     fig = plotar_contagem(placares, 'placar')
     st.pyplot(fig)
 
+## COLUNA 2 - DISTRIBUIÇÃO DE RESULTADOS DO CAMPEONATO
+with col2:
+    st.markdown("### Distribuição de resultados")
+    fig = plotar_pizza(resultados, 'Vencedor')
+    st.pyplot(fig)
 times_casa = matches[['home_team_short_name','home_score','away_score']].rename(
     columns={'home_team_short_name':'time','home_score':'gols_pro','away_score':'gols_contra'}
     )
