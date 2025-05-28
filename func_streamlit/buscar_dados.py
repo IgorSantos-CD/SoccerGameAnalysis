@@ -21,15 +21,19 @@ def rodadas_disputadas(competition, season):
     return rodada_atual
 
 def media_gols(df):
-    df_not_null = df.loc[(pd.notnull(df['home_score'])) & pd.notnull(df['away_score'])]
-    gols_total = sum(df_not_null['home_score']) + sum(df_not_null['away_score'])
-    jogos_total = df_not_null.shape[0]
+    df_not_null = df.loc[
+        (pd.notnull(df['home_score'])) & 
+        (pd.notnull(df['away_score'])) & 
+        (df['status'] == 'FINISHED')
+    ]
+    gols_total = int(sum(df_not_null['home_score']) + sum(df_not_null['away_score']))
+    jogos_total = int(df_not_null.shape[0])
     media = round(gols_total/jogos_total,2)
     return media, jogos_total, gols_total
 
 def formatar_placares(row):
-    gol_casa = row['home_score']
-    gol_fora = row['away_score']
+    gol_casa = int(row['home_score'])
+    gol_fora = int(row['away_score'])
     placar = f'{gol_casa} x {gol_fora}'
     return placar
 
