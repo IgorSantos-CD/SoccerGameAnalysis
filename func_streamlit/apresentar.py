@@ -25,7 +25,7 @@ def big_number_card(title, value,color="#000000"):
     
 def plotar_contagem(df, col):
     contagem = df[col].value_counts().head(5)
-    fig, ax = plt.subplots(figsize=(12,8))
+    fig, ax = plt.subplots(figsize=(12,11.5))
     fig.patch.set_facecolor('lightgray')
     ax.set_facecolor('lightgray')
 
