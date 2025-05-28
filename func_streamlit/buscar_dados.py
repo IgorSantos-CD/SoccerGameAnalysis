@@ -37,6 +37,16 @@ def formatar_placares(row):
     placar = f'{gol_casa} x {gol_fora}'
     return placar
 
+def formatar_resultados(row):
+    resultado = row['winner']
+    
+    if resultado == 'HOME_TEAM':
+        return 'Vitória Casa'
+    elif resultado == 'AWAY_TEAM':
+        return 'Vitória Visitante'
+    else:
+        return 'Empate'
+
 
 
 
