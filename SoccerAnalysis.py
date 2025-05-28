@@ -3,7 +3,8 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from db import select_supabase
 from supabase_local import connect_to_supabase, define_headers
-from func_streamlit import year_validate, big_number_card,plotar_contagem, rodadas_disputadas, media_gols, formatar_placares
+from func_streamlit import (year_validate, big_number_card,plotar_contagem, rodadas_disputadas, media_gols, formatar_placares,
+                            plotar_pizza, formatar_resultados)
 
 # Connect to Supabase
 supabase = connect_to_supabase()
